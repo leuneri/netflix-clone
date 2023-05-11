@@ -1,7 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "./Banner.css"
+import axios from './axios'
+import requests from './Requests';
 
 function Banner() {
+
+    const [movie, setMovie] = useState([]);
+
+    useEffect(() => {
+        async function fetchData() {
+            const request = await axios.get(requests.fetchNetflixOriginals);
+            console.log(request);
+            setMovie(
+                request.data.results[
+                    Math.floor(Math.random() * request.data.results.length - 1)
+                ]
+            );
+            
+            return request;
+        }
+        
+        fetchData();
+    }, []);
+
+    console.log(movie);
 
     // Add .. when description is too long
     function truncate(string, n) {
@@ -11,23 +33,24 @@ function Banner() {
   return (
     <header className="banner" style={{
         backgroundSize: "cover",
-        backgroundImage: `url('https://wholistickids.com/wp-content/uploads/2019/01/plain-black-background.jpg')`,
+        // backdrop_path based on api found in console object shown
+        backgroundImage: `url('https://image.tmdb.org/t/p/original/${movie?.backdrop_path}')`,
         backgroundPosition: "center center"
     }}>
         <div className="banner_contents">
             <h1 className="banner_title">
-                Movie Name
+                {movie?.title || movie?.name || movie?.original_name}
             </h1>
             <div className="banner_buttons">
                 <button className="banner_button">Play</button>
                 <button className="banner_button">My List</button>
             </div>
             <h1 className="banner_description">
-                {truncate(`This is a test description`, 150)}
+                {truncate(movie?.overview, 200)}
             </h1>
         </div>
-
-        <div class_name="banner_fadeBottom" />
+        {/* Fading part on bottom */}
+        <div className="banner_fadeBottom" />
     </header>
   )
 }
