@@ -1,9 +1,8 @@
 import React, { useRef } from 'react'
 import './SignUpScreen.css'
-import  '../firebase'
+import auth from '../firebase'
 
 function SignUpScreen() {
-
 
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
@@ -11,7 +10,7 @@ function SignUpScreen() {
     // Prevent from going back to main page when reload
     const register = (e) => {
         e.preventDefault()
-        createUserWithEmailAndPassword(
+        auth.createUserWithEmailAndPassword(
           emailRef.current.value,
           passwordRef.current.value
         ).then(() => {
