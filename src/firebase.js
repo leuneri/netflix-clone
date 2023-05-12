@@ -1,4 +1,5 @@
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+import firebase from 'firebase'
+
 const firebaseConfig = {
     apiKey: "AIzaSyA7NtcemTArycRqoiIkdUnRCSfgQZUc2XI",
     authDomain: "netflix-cl-9f7f0.firebaseapp.com",
@@ -8,3 +9,13 @@ const firebaseConfig = {
     appId: "1:857987325156:web:655d7888b743f723b9a0f1",
     measurementId: "G-Z3B0TR8656"
   };
+
+// Takes config and intialize application
+const firebaseApp = firebase.intilizeApp(firebaseConfig)
+
+// Firestore database
+const db = firebaseApp.firestore()
+const auth = firebase.auth()
+
+export { auth }
+export default db
