@@ -2,20 +2,20 @@ import React, { useState, useEffect } from 'react'
 import './Nav.css'
 
 function Nav() {
-    const [show, handleShow] = useState(false);
+    const [show, handleShow] = useState(false)
 
     const transitionNavBar = () => {
         if (window.scrollY > 100) {
-            handleShow(true);
+            handleShow(true)
         } else {
-            handleShow(false);
+            handleShow(false)
         }
     }
 
     // As we scroll, we have an event listener for if we scrolled too much
     useEffect(() => {
-        window.addEventListener('scroll', transitionNavBar);
-        return () => window.removeEventListener('scroll', transitionNavBar);
+        window.addEventListener('scroll', transitionNavBar)
+        return () => window.removeEventListener('scroll', transitionNavBar)
     }, [])
 
   return (
