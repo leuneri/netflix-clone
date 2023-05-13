@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './App.css'
 import HomeScreen from './screens/HomeScreen'
 import {
@@ -8,20 +8,31 @@ import {
 } from "react-router-dom";
 import LoginScreen from './screens/LoginScreen'
 import { auth } from "./firebaseConfig"
+import { useDispatch, useSelector } from 'react-redux'
+import { login, logout, selectUser } from './features/userSlice'
+import ProfileScreen from './screens/ProfileScreen';
 
 function App() {
-  const user = null;
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch()
 
-  // // Event Listener
-  // useEffect{() => {
-  //   auth.onAuthStateChanged((userAuth) => {
-  //     if (userAuth) {
-  //       // Logged in
-  //     } else {
-  //       // Logged out
-  //     }
-  //   })
-  // }, []}
+  // Event Listener for persistence (stay signed in or out)
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((userAuth) => {
+      if (userAuth) {
+        // Logged in
+        dispatch(login({
+          uid: userAuth.uid,
+          email: userAuth.email,
+        }))
+      } else {
+        // Logged out -> logout is reset use back to null
+        dispatch(logout)
+      }
+    })
+
+    return unsubscribe
+  }, [dispatch])
 
   return (
     <div className="app">
@@ -30,6 +41,7 @@ function App() {
           <LoginScreen />
         ) : (
           <Routes>
+            <Route path='/profile' element={<ProfileScreen />}/>
             <Route path="/" element={<HomeScreen />} />
           </Routes>
         )}
