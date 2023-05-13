@@ -36,7 +36,7 @@ function App() {
     return unsubscribe
   }, [dispatch])
 
-  const loggedIn = user !== null;
+  const loggedIn = (user !== null) && (user);
 
   return (
     <div className="app">
