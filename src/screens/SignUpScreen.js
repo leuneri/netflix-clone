@@ -1,12 +1,16 @@
 import React, { useRef } from 'react'
 import './SignUpScreen.css'
 import { auth } from '../firebaseConfig'
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux'
+import { login } from '../features/userSlice'
 
 function SignUpScreen() {
 
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
-  // const auth = getAuth(app);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
     // Prevent from going back to main page when reload
     const register = (e) => {
@@ -16,6 +20,7 @@ function SignUpScreen() {
           passwordRef.current.value
         ).then((authUser) => {
           console.log(authUser.user);
+          navigate('/profile');
         }).catch((error) => {
           alert(error.message)
         })
@@ -28,6 +33,11 @@ function SignUpScreen() {
           passwordRef.current.value
         ).then((authUser) => {
           console.log(authUser.user)
+          dispatch(login({
+            uid: authUser.user.uid,
+            email: authUser.user.email,
+          }))
+          navigate('/profile')
         }).catch((error) => {
           alert(error.message)
         })

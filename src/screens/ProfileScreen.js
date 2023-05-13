@@ -3,7 +3,9 @@ import './ProfileScreen.css'
 
 function ProfileScreen() {
   return (
-    <div className='profileScreen'>ProfileScreen</div>
+    <div className='profileScreen'>
+        <h1>Testing</h1>
+    </div>
   )
 }
 

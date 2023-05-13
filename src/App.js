@@ -19,25 +19,29 @@ function App() {
   // Event Listener for persistence (stay signed in or out)
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((userAuth) => {
+      console.log('userAuth:', userAuth)
       if (userAuth) {
         // Logged in
         dispatch(login({
           uid: userAuth.uid,
           email: userAuth.email,
         }))
+
       } else {
-        // Logged out -> logout is reset use back to null
-        dispatch(logout)
+        // Logged out -> logout is reset user back to null
+        dispatch(logout())
       }
     })
 
     return unsubscribe
   }, [dispatch])
 
+  const loggedIn = user !== null;
+
   return (
     <div className="app">
       <Router>
-        {! user ? (
+        { !(loggedIn) ? (
           <LoginScreen />
         ) : (
           <Routes>
