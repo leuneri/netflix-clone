@@ -1,62 +1,58 @@
-import React, { useRef } from 'react'
-import './SignUpScreen.css'
-import { auth } from '../firebaseConfig'
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux'
-import { login } from '../features/userSlice'
+import React, { useRef } from "react";
+import { auth } from "../firebaseConfig";
+import "./SignUpScreen.css";
 
-function SignUpScreen() {
+function SignInScreen() {
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
 
-  const emailRef = useRef(null)
-  const passwordRef = useRef(null)
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const register = (e) => {
+    console.log("register");
+    e.preventDefault();
 
-    // Prevent from going back to main page when reload
-    const register = (e) => {
-        e.preventDefault()
-        auth.createUserWithEmailAndPassword(
-          emailRef.current.value,
-          passwordRef.current.value
-        ).then((authUser) => {
-          console.log(authUser.user);
-          navigate('/profile');
-        }).catch((error) => {
-          alert(error.message)
-        })
-    }
+    auth
+      .createUserWithEmailAndPassword(
+        emailRef.current.value,
+        passwordRef.current.value
+      )
+      .then((authUser) => {
+        console.log(authUser);
+      })
+      .catch((error) => alert(error));
+  };
 
-    const signIn = (e) => {
-        e.preventDefault()
-        auth.signInWithEmailAndPassword(
-          emailRef.current.value,
-          passwordRef.current.value
-        ).then((authUser) => {
-          console.log(authUser.user)
-          dispatch(login({
-            uid: authUser.user.uid,
-            email: authUser.user.email,
-          }))
-          navigate('/profile')
-        }).catch((error) => {
-          alert(error.message)
-        })
-    }
+  const signIn = (e) => {
+    e.preventDefault();
+
+    auth
+      .signInWithEmailAndPassword(
+        emailRef.current.value,
+        passwordRef.current.value
+      )
+      .then((authUser) => {
+        console.log(authUser);
+      })
+      .catch((error) => alert(error));
+  };
 
   return (
-    <div className='signUpScreen'>
-        <form>
-            <h1>Sign In</h1>
-            <input ref={emailRef} placeholder="Email" type="email" />
-            <input ref={passwordRef} placeholder="Password" type="password" />
-            <button type="submit" onClick={signIn}>Sign In</button>
-            <h4>
-                <span className="signUpScreen_gray">New to Netflix? </span>
-                  <span className='signUpScreen_link' onClick={register}>Sign up now.</span>
-            </h4>
-        </form>
+    <div className="signupScreen">
+      <form>
+        <h1>Sign In</h1>
+        <input ref={emailRef} placeholder="Email" type="email" />
+        <input ref={passwordRef} placeholder="Password" type="password" />
+        <button onClick={signIn} type="submit">
+          Sign In
+        </button>
+        <h4>
+          <span className="signupScreen__gray">New to Netflix? </span>
+          <span onClick={register} className="signupScreen__link">
+            Sign up now
+          </span>
+        </h4>
+      </form>
     </div>
-  )
+  );
 }
 
-export default SignUpScreen
+export default SignInScreen;

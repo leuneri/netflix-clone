@@ -27,7 +27,7 @@ function Banner() {
 
     // Add .. when description is too long
     function truncate(string, n) {
-        return string?.length > n ? string.substring(0, n-1) + "..." : string;
+        return string?.length > n ? string.substr(0, n-1) + "..." : string;
     }
 
   return (
@@ -46,7 +46,7 @@ function Banner() {
                 <button className="banner_button">My List</button>
             </div>
             <h1 className="banner_description">
-                {truncate(movie?.overview, 200)}
+                {truncate(`${movie?.overview}`, 200)}
             </h1>
         </div>
         {/* Fading part on bottom */}
