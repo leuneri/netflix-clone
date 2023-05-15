@@ -13,7 +13,7 @@ import { login, logout, selectUser } from './features/userSlice'
 import ProfileScreen from './screens/ProfileScreen';
 
 function App() {
-  const user = useSelector(selectUser);
+  const users = useSelector(selectUser);
   const dispatch = useDispatch()
 
   // Event Listener for persistence (stay signed in or out)
@@ -38,12 +38,13 @@ function App() {
   return (
     <div className="app">
       <Router>
-        { (user) ? (
+        { !users ? (
           <LoginScreen />
         ) : (
           <Routes>
-            <Route path='/profile' element={<ProfileScreen />}/>
-            <Route path="/" element={<HomeScreen />} />
+            <Route exact path="/" element={<HomeScreen />}></Route>
+            <Route path='/profile' element={<ProfileScreen />}></Route>
+            <Route path="/login" element={<LoginScreen />} ></Route>
           </Routes>
         )}
     </Router>
